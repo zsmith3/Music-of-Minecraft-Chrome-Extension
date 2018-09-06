@@ -2,7 +2,10 @@
 
 // Initialize extension (on install)
 chrome.runtime.onInstalled.addListener(function () {
-	// nothing here
+	chrome.storage.local.set({
+		volume: 1,
+		onstart: false
+	});
 });
 
 // Initialize background data (on chrome open)
