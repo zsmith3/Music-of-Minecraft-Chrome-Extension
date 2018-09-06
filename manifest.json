@@ -23,6 +23,6 @@
 
 	"options_page": "options.html",
 	"background": {
-		"scripts": ["js/util.js", "js/main.js"]
+		"scripts": ["js/music.js", "js/main.js"]
 	}
 }
