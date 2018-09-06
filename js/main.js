@@ -13,7 +13,6 @@ function initialize () {
 		playNextTrack();
 	};
 
-	// TODO only play by default dependent on settings
 	playMusic();
 }
 
@@ -39,6 +38,8 @@ var lastTrackTimeoutEnd = -1;
 initialize();
 
 /* TODO
-set volume with audioPlayer.volume (0 - 1)
+1) get options where relevant in this code
+2) add callback function to updateOption, e.g. to update volume live
+	set volume with audioPlayer.volume (0 - 1)
 
 */
