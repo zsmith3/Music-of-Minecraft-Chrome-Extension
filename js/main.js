@@ -9,11 +9,15 @@ chrome.runtime.onInstalled.addListener(function () {
 function initialize () {
 	audioPlayer = document.createElement("audio");
 	audioPlayer.autoplay = true;
+	getOption("volume").then(updateVolume);
 	audioPlayer.onended = function () {
 		playNextTrack();
 	};
 
-	playMusic();
+	getOption("onstart").then(function (value) {
+		if (value) playMusic();
+		else updateBadge();
+	});
 }
 
 // Play/pause music (on extension badge click)
@@ -36,10 +40,3 @@ var lastTrackTimeoutEnd = -1;
 
 // Run initialization
 initialize();
-
-/* TODO
-1) get options where relevant in this code
-2) add callback function to updateOption, e.g. to update volume live
-	set volume with audioPlayer.volume (0 - 1)
-
-*/

@@ -16,15 +16,15 @@ function updateOption (input) {
 	var value = getValue(input);
 
 	chrome.storage.local.set({[name]: value});
+
+	if (name in optionFunctions) optionFunctions[name](value);
 }
 
 // Pre-fill an option
 function fillOption (input) {
 	var name = input.id.substr(6);
 
-	chrome.storage.local.get(name, function (result) {
-		setValue(input, result[name]);
-	});
+	getOption(name).then(function (result) { setValue(input, result); });
 }
 
 // Add input onchange listeners
@@ -33,5 +33,14 @@ window.onload = function () {
 	for (var i = 0; i < inputs.length; i++) {
 		inputs[i].onchange = function () { updateOption(this); };
 		fillOption(inputs[i]);
+	}
+};
+
+// Functions to run after updating options
+var optionFunctions = {
+	volume: function (value) {
+		chrome.runtime.getBackgroundPage(function (page) {
+			page.updateVolume(value);
+		});
 	}
 };

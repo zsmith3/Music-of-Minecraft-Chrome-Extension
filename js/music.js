@@ -12,6 +12,11 @@ function playTrack (track) {
 	audioPlayer.src = chrome.extension.getURL(audioRoot + track);
 }
 
+// Update the music volume
+function updateVolume (value) {
+	audioPlayer.volume = value;
+}
+
 // Get the current state of the music player
 function getPlayingState () {
 	if (Date.now() < lastTrackTimeoutEnd) return STATE_WAITING;
