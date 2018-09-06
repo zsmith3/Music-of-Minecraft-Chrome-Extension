@@ -3,7 +3,7 @@
 
 	"name": "Random Music Player (for Minecraft music)",
 	"description": "An extension to play music (e.g. the Minecraft music) randomly.",
-	"version": "0.0.1",
+	"version": "0.1",
 
 	"browser_action": {
 		"default_icon": {
