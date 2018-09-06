@@ -1,0 +1,28 @@
+{
+	"manifest_version": 2,
+
+	"name": "Random Music Player (for Minecraft music)",
+	"description": "An extension to play music (e.g. the Minecraft music) randomly.",
+	"version": "0.0.1",
+
+	"browser_action": {
+		"default_icon": {
+			"16": "images/icon_16.png",
+			"48": "images/icon_48.png",
+			"128": "images/icon_128.png" }
+	},
+	"icons": {
+		"16": "images/icon_16.png",
+		"48": "images/icon_48.png",
+        "128": "images/icon_128.png"
+    },
+
+	"permissions": [
+		"storage"
+	],
+
+	"options_page": "options.html",
+	"background": {
+		"scripts": ["js/util.js", "js/main.js"]
+	}
+}
