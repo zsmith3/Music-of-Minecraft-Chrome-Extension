@@ -18,11 +18,12 @@
     },
 
 	"permissions": [
-		"storage"
+		"storage",
+		"unlimitedStorage"
 	],
 
-	"options_page": "options.html",
+	"options_page": "html/options.html",
 	"background": {
-		"scripts": ["js/es6-promise.auto.min.js", "js/utils.js", "js/music.js", "js/main.js"]
+		"scripts": ["js/es6-promise.auto.min.js", "js/utils.js", "js/files.js", "js/music.js", "js/main.js"]
 	}
 }

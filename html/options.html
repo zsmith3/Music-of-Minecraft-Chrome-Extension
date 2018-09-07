@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Options | Random (Minecraft) Music Extension</title>
+
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+
+		<script src="../js/es6-promise.auto.min.js"></script>
+		<script src="../js/utils.js"></script>
+		<script src="../js/files.js"></script>
+		<script src="../js/options.js"></script>
+	</head>
+
+	<body>
+		<h1 class="text-center my-3">
+			Random (Minecraft) Music Extension
+		</h1>
+
+		<form class="container">
+			<h2>
+				Options
+			</h2>
+
+			<br />
+
+			<div class="custom-control custom-checkbox">
+				<input class="custom-control-input" id="input-onstart" type="checkbox" />
+				<label class="custom-control-label" for="input-onstart">Play music when Chrome opens</label>
+			</div>
+
+			<br />
+
+			<div class="form-group">
+				<label for="input-volume">Volume</label>
+				<input class="form-control" id="input-volume" type="range" min="0" max="1" step="0.01" aria-describedby="volumeHelp" />
+				<small id="volumeHelp" class="form-text text-muted">The volume at which to play the music.</small>
+			</div>
+
+			<br />
+			<br />
+
+			<div class="custom-control custom-radio">
+				<input class="custom-control-input" id="input-musicLocMc" type="radio" name="input-musicLocation" />
+				<label class="custom-control-label" for="input-musicLocMc">Select music from Minecraft installation</label>
+			</div>
+
+			<br />
+
+			<fieldset id="fieldset-musicLocMc">
+				<div class="form-group">
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" id="input-nosave-mcFolder" webkitdirectory aria-describedby="mcFolderHelp">
+						<label class="custom-file-label" for="input-nosave-mcFolder">Choose folder</label>
+					</div>
+					<div class="progress">
+						<div class="progress-bar" role="progressbar"></div>
+					</div>
+					<p id="mcFolder-status"></p>
+					<small id="mcFolderHelp" class="form-text text-muted">
+						This should be the Minecraft assets folder, which should be present if you have Minecraft installed on your computer. Consult the table below to find it on your system. When asked to confirm uploading of many files to this site, accept it. This is necessary for the extension to access the folder, so music files can be extracted.
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										Operating System
+									</th>
+									<th>
+										Minecraft assets path
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">
+										Windows
+									</th>
+									<td>
+										C:/Users/{USERNAME}/AppData/Roaming/.minecraft/assets/
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">
+										Mac
+									</th>
+									<td>
+										~/Library/Application Support/minecraft/assets/
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">
+										Linux
+									</th>
+									<td>
+										~/.minecraft/assets/
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</small>
+				</div>
+			</fieldset>
+
+			<!-- <br />
+
+			<div class="custom-control custom-radio">
+				<input class="custom-control-input" id="input-musicLocFolder" type="radio" name="input-musicLocation" />
+				<label class="custom-control-label" for="input-musicLocFolder">Use music from another folder (NOTE - not currently supported)</label>
+			</div>
+
+			<br />
+
+			<fieldset id="fieldset-musicLocFolder">
+				<div class="form-group">
+					<div class="custom-file">
+						<label for="input-musicFolderPath">Enter folder path</label>
+						<input class="form-control" id="input-musicFolderPath" type="text" aria-describedby="musicFolderPathHelp">
+					</div>
+					<small id="musicFolderPathHelp" class="form-text text-muted">
+						This is the path to a folder containing music files to play. Music files should be of types: .mp3, .ogg. There is not currently support for playing files within subdirectories.
+					</small>
+				</div>
+			</fieldset> -->
+		</form>
+	</body>
+</html>

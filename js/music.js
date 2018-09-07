@@ -1,15 +1,17 @@
 // Functions to handle music playing
 
 // Constants
-var STATE_PLAYING = 0,
-	STATE_PAUSED = 1,
-	STATE_ENDED = 2,
-	STATE_WAITING = 3;
+var STATE_PLAYING = 1,
+	STATE_PAUSED = 2,
+	STATE_ENDED = 3,
+	STATE_WAITING = 4;
 
 
 // Play a track
 function playTrack (track) {
-	audioPlayer.src = chrome.extension.getURL(audioRoot + track);
+	readFilePath(track, "readAsDataURL").then(function (base64) {
+		audioPlayer.src = base64;
+	});
 }
 
 // Update the music volume
@@ -25,24 +27,50 @@ function getPlayingState () {
 	else return STATE_PLAYING;
 }
 
+// Get the current track listing
+function getAllTracks () {
+	return new Promise(function (resolve, reject) {
+		function testArr (arr) {
+			if (arr.length > 0) resolve(arr);
+			else reject("No music selected yet.");
+		}
+
+		getOption("musicLocMc").then(function (result) {
+			if (result) getOption("mcMusicFiles").then(testArr).catch(reject);
+			else getOption("musicLocFolder").then(function (result) {
+				if (result) getOption("folderMusicFiles").then(testArr).catch(reject);
+				else reject("No music source selected yet.");
+			}).catch(reject);
+		}).catch(reject);
+	});
+}
+
 // Select the next track to play
 function chooseTrack () {
-	nextIndex = lastPlayedIndex;
-	while (nextIndex == lastPlayedIndex) nextIndex = Math.floor(Math.random() * tracks.length);
-	lastPlayedIndex = nextIndex;
-	return tracks[nextIndex];
+	return new Promise(function (resolve, reject) {
+		getAllTracks().then(function (tracks) {
+			nextIndex = lastPlayedIndex;
+			while (nextIndex == lastPlayedIndex) nextIndex = Math.floor(Math.random() * tracks.length);
+			lastPlayedIndex = nextIndex;
+			resolve(tracks[nextIndex]);
+		}).catch(reject);
+	});
 }
 
 // Select and play the next track
 function playNextTrack () {
 	if (getPlayingState() == STATE_WAITING) return;
 
-	var nextTrack = chooseTrack();
-	var timeout = Math.ceil(Math.random() * maxTrackTimeout);
-	lastTrackTimeout = setTimeout(function () {
-		playTrack(nextTrack);
-	}, timeout);
-	lastTrackTimeoutEnd = Date.now() + timeout;
+	return new Promise(function (resolve, reject) {
+		chooseTrack().then(function (nextTrack) {
+			var timeout = Math.ceil(Math.random() * maxTrackTimeout);
+			lastTrackTimeout = setTimeout(function () {
+				playTrack(nextTrack);
+			}, timeout);
+			lastTrackTimeoutEnd = Date.now() + timeout;
+			resolve();
+		}).catch(reject);
+	});
 }
 
 // Play/resume music
@@ -53,7 +81,7 @@ function playMusic () {
 		audioPlayer.play();
 		break;
 	case STATE_ENDED:
-		playNextTrack();
+		playNextTrack().then(updateBadge).catch(console.error);
 		break;
 	}
 
@@ -81,10 +109,12 @@ function pauseMusic () {
 function toggleMusic () {
 	var state = getPlayingState();
 	switch (state) {
-	case STATE_PAUSED, STATE_ENDED:
+	case STATE_PAUSED:
+	case STATE_ENDED:
 		playMusic();
 		break;
-	case STATE_PLAYING, STATE_WAITING:
+	case STATE_PLAYING:
+	case STATE_WAITING:
 		pauseMusic();
 		break;
 	}
@@ -94,12 +124,14 @@ function toggleMusic () {
 function updateBadge () {
 	var state = getPlayingState();
 	switch (state) {
-	case STATE_PLAYING, STATE_WAITING:
+	case STATE_PLAYING:
+	case STATE_WAITING:
 		chrome.browserAction.setTitle({title: "Minecraft Background Music Player (active)"});
 		chrome.browserAction.setBadgeText({text: "❚❚"});
 		chrome.browserAction.setBadgeBackgroundColor({color: "#00AA00"});
 		break;
-	case STATE_PAUSED, STATE_ENDED:
+	case STATE_PAUSED:
+	case STATE_ENDED:
 		chrome.browserAction.setTitle({title: "Minecraft Background Music Player (paused)"});
 		chrome.browserAction.setBadgeText({text: "▶"});
 		chrome.browserAction.setBadgeBackgroundColor({color: "#AA0000"});
