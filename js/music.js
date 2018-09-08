@@ -126,13 +126,13 @@ function updateBadge () {
 	switch (state) {
 	case STATE_PLAYING:
 	case STATE_WAITING:
-		chrome.browserAction.setTitle({title: "Minecraft Background Music Player (active)"});
+		chrome.browserAction.setTitle({title: "Music of Minecraft Extension (active)"});
 		chrome.browserAction.setBadgeText({text: "❚❚"});
 		chrome.browserAction.setBadgeBackgroundColor({color: "#00AA00"});
 		break;
 	case STATE_PAUSED:
 	case STATE_ENDED:
-		chrome.browserAction.setTitle({title: "Minecraft Background Music Player (paused)"});
+		chrome.browserAction.setTitle({title: "Music of Minecraft Extension (paused)"});
 		chrome.browserAction.setBadgeText({text: "▶"});
 		chrome.browserAction.setBadgeBackgroundColor({color: "#AA0000"});
 		break;

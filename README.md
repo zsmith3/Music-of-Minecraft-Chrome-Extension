@@ -1,6 +1,6 @@
-# Chrome-Music-Extension-Minecraft
+# Music of Minecraft Chrome Extension
 
-A Chrome extension which plays Minecraft's music in the background while you browse. It's not finished yet, but it will eventually play the music randomly, to mimic the game.
+A Chrome extension which plays Minecraft's music in the background while you browse.
 
 ## Acknowledgements
 
