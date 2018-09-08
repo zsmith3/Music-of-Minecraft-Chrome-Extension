@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
 
-	"name": "Music of Minecraft Extension",
-	"description": "An extension to randomly play music (e.g. the Minecraft music).",
+	"name": "Music of Minecraft",
+	"description": "An extension to randomly play ambient music, such as the music from Minecraft.",
 	"version": "1.0",
 
 	"browser_action": {
