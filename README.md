@@ -4,7 +4,7 @@ A Chrome extension which plays Minecraft's music randomly in the background whil
 
 ## Installation
 
-Get it on the Chrome Web Store [here](). (This link doesn't work yet)
+Get it on the Chrome Web Store [here](https://chrome.google.com/webstore/detail/music-of-minecraft/piidlenoacbeeecjfdkjcgcienfgnkjn).
 
 ## Features
 

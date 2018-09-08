@@ -3,7 +3,7 @@
 
 	"name": "Music of Minecraft",
 	"description": "An extension to randomly play ambient music, such as the music from Minecraft.",
-	"version": "1.0",
+	"version": "1.0.1",
 
 	"browser_action": {
 		"default_icon": {
