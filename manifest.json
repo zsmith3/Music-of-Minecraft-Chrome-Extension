@@ -3,18 +3,18 @@
 
 	"name": "Music of Minecraft Extension",
 	"description": "An extension to randomly play music (e.g. the Minecraft music).",
-	"version": "0.4",
+	"version": "1.0",
 
 	"browser_action": {
 		"default_icon": {
-			"16": "images/icon_16.png",
-			"48": "images/icon_48.png",
-			"128": "images/icon_128.png" }
+			"16": "images/icons/icon_16.png",
+			"48": "images/icons/icon_48.png",
+			"128": "images/icons/icon_128.png" }
 	},
 	"icons": {
-		"16": "images/icon_16.png",
-		"48": "images/icon_48.png",
-        "128": "images/icon_128.png"
+		"16": "images/icons/icon_16.png",
+		"48": "images/icons/icon_48.png",
+        "128": "images/icons/icon_128.png"
     },
 
 	"permissions": [
