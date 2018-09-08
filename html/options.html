@@ -53,7 +53,7 @@
 						<label class="custom-file-label" for="input-nosave-mcFolder">Choose folder</label>
 					</div>
 					<div class="progress">
-						<div class="progress-bar" role="progressbar"></div>
+						<div id="mcFolder-progress" class="progress-bar" role="progressbar"></div>
 					</div>
 					<p id="mcFolder-status"></p>
 					<small id="mcFolderHelp" class="form-text text-muted">
@@ -100,11 +100,11 @@
 				</div>
 			</fieldset>
 
-			<!-- <br />
+			<br />
 
 			<div class="custom-control custom-radio">
 				<input class="custom-control-input" id="input-musicLocFolder" type="radio" name="input-musicLocation" />
-				<label class="custom-control-label" for="input-musicLocFolder">Use music from another folder (NOTE - not currently supported)</label>
+				<label class="custom-control-label" for="input-musicLocFolder">Use music from another folder</label>
 			</div>
 
 			<br />
@@ -112,14 +112,18 @@
 			<fieldset id="fieldset-musicLocFolder">
 				<div class="form-group">
 					<div class="custom-file">
-						<label for="input-musicFolderPath">Enter folder path</label>
-						<input class="form-control" id="input-musicFolderPath" type="text" aria-describedby="musicFolderPathHelp">
+						<label for="input-srcFolder">Enter folder path</label>
+						<input class="form-control" id="input-srcFolder" type="text" aria-describedby="srcFolderHelp">
 					</div>
-					<small id="musicFolderPathHelp" class="form-text text-muted">
-						This is the path to a folder containing music files to play. Music files should be of types: .mp3, .ogg. There is not currently support for playing files within subdirectories.
+					<div class="progress">
+						<div id="srcFolder-progress" class="progress-bar" role="progressbar"></div>
+					</div>
+					<p id="mcFolder-status"></p>
+					<small id="srcFolderHelp" class="form-text text-muted">
+						This should be a folder containing music files to play. Music files should be of types: .mp3, .ogg, .wav, .mp4, .m4a, .ogv, .ogm, .oga, .opus, .webm, .flac. All subdirectories will also be scanned for music files. Note that changes to the contents of this folder will not be registered unless it is re-uploaded here.
 					</small>
 				</div>
-			</fieldset> -->
+			</fieldset>
 		</form>
 	</body>
 </html>

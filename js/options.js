@@ -86,7 +86,15 @@ var optionGetFunctions = {
 		getOption("mcMusicFiles").then(function (result) {
 			if (result.length) {
 				input.labels[0].innerText = result.length + " music files selected";
-				document.querySelector(".progress-bar").style.width = "100%";
+				document.querySelector("#mcFolder-progress").style.width = "100%";
+			}
+		});
+	},
+	srcFolder: function (input) {
+		getOption("folderMusicFiles").then(function (result) {
+			if (result.length) {
+				input.labels[0].innerText = result.length + " music files selected";
+				document.querySelector("#srcFolder-progress").style.width = "100%";
 			}
 		});
 	}
@@ -101,7 +109,7 @@ var optionSetFunctions = {
 	},
 	mcFolder: function (files) {
 		extractMCMusicFiles(files, function (progress) {
-			document.querySelector(".progress-bar").style.width = (progress * 100) + "%";
+			document.querySelector("#mcFolder-progress").style.width = (progress * 100) + "%";
 		}).then(function (files) {
 			chrome.storage.local.set({mcMusicFiles: files}, function () {
 				document.getElementById("mcFolder-status").innerText = "Successfully copied and set music files.";
@@ -112,6 +120,21 @@ var optionSetFunctions = {
 		}).catch(function (error) {
 			console.error(error);
 			document.getElementById("mcFolder-status").innerText = "An error occurred: " + error;
+		});
+	},
+	srcFolder: function (files) {
+		extractFolderMusicFiles(files, function (progress) {
+			document.querySelector("#srcFolder-progress").style.width = (progress * 100) + "%";
+		}).then(function (files) {
+			chrome.storage.local.set({folderMusicFiles: files}, function () {
+				document.getElementById("srcFolder-status").innerText = "Successfully copied and set music files.";
+				chrome.runtime.getBackgroundPage(function (page) {
+					page.updateBrowserAction();
+				});
+			});
+		}).catch(function (error) {
+			console.error(error);
+			document.getElementById("srcFolder-status").innerText = "An error occurred: " + error;
 		});
 	}
 };

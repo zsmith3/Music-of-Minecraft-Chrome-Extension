@@ -72,6 +72,24 @@ function readFilePath (filePath, type) {
 	});
 }
 
+// Copy a list of files ({name: new_name, file: old_file}) to the extension directory
+function copyTrackFiles (allTracks, baseDir, progressCallback) {
+	return new Promise(function (resolve, reject) {
+		var totalSize = allTracks.reduce(function (total, track) { return total + track.file.size; }, 0);
+		var doneSize = 0;
+		promiseChain(allTracks, function (resolve, reject, track) {
+			writeToFile(baseDir + track.name, track.file).then(function () {
+				doneSize += track.file.size;
+				progressCallback(doneSize / totalSize);
+				resolve();
+			}).catch(reject);
+		}, null).then(function () {
+			var finalFileNames = allTracks.map(function (o) { return baseDir + o.name; });
+			resolve(finalFileNames);
+		}).catch(reject);
+	});
+}
+
 
 // Minecraft file functions
 
@@ -132,18 +150,40 @@ function extractMCMusicFiles (fileList, progressCallback) {
 			}).filter(function (o) { return o !== null; });
 
 			// Copy files to extension directory
-			var totalSize = allTracks.reduce(function (total, track) { return total + track.file.size; }, 0);
-			var doneSize = 0;
-			promiseChain(allTracks, function (resolve, reject, track) {
-				writeToFile("mcfiles/" + track.name, track.file).then(function () {
-					doneSize += track.file.size;
-					progressCallback(doneSize / totalSize);
-					resolve();
-				}).catch(reject);
-			}, null).then(function () {
-				var finalFileNames = allTracks.map(function (o) { return "mcfiles/" + o.name; })
-				resolve(finalFileNames);
-			});
+			copyTrackFiles(allTracks, "music/minecraft/", progressCallback).then(resolve).catch(reject);
 		});
 	});
+}
+
+
+// Folder functions
+
+// Constants
+var audioExtensions = [
+	"flac",
+	"mp4",
+	"m4a",
+	"mp3",
+	"ogv",
+	"ogm",
+	"ogg",
+	"oga",
+	"opus",
+	"webm",
+	"wav",
+];
+
+// Extract audio files from a list of files
+function getAudioFiles (fileList) {
+	var allFiles = Array.from(fileList);
+	var musicFiles = allFiles.filter(function (f) {
+		return audioExtensions.map(function (ext) { return f.name.endsWith(ext); }).reduce(function (total, item) { return item || total; }, false);
+	});
+	return musicFiles;
+}
+
+// Extract music files from a full list of folder files
+function extractFolderMusicFiles (fileList, progressCallback) {
+	var allTracks = getAudioFiles(fileList);
+	return copyTrackFiles(allTracks, "music/folder/", progressCallback);
 }
