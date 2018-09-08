@@ -13,6 +13,7 @@ Get it on the Chrome Web Store [here](). (This link doesn't work yet)
     - Folder: you select any folder on your computer, then it (and its subdirectories) are scannned for any audio files
 - Adjustable volume
 - Choose whether to start playing when Chrome opens
+- Choose whether to play in the background when Chrome is closed
 - Click the extension icon to play/pause at any time
 - Random playing:
     - Music is selected randomly from the selection

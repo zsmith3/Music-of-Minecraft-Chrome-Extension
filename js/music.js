@@ -62,14 +62,16 @@ function playNextTrack () {
 	if (getPlayingState() == STATE_WAITING) return;
 
 	return new Promise(function (resolve, reject) {
-		chooseTrack().then(function (nextTrack) {
-			var timeout = Math.ceil(Math.random() * maxTrackTimeout);
-			lastTrackTimeout = setTimeout(function () {
-				playTrack(nextTrack);
-			}, timeout);
-			lastTrackTimeoutEnd = Date.now() + timeout;
-			resolve();
-		}).catch(reject);
+		getOption("maxTrackTimeout").then(function (maxTrackTimeout) {
+			chooseTrack().then(function (nextTrack) {
+				var timeout = Math.ceil(Math.random() * maxTrackTimeout * 1000);
+				lastTrackTimeout = setTimeout(function () {
+					playTrack(nextTrack);
+				}, timeout);
+				lastTrackTimeoutEnd = Date.now() + timeout;
+				resolve();
+			}).catch(reject);
+		});
 	});
 }
 

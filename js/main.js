@@ -5,7 +5,9 @@ chrome.runtime.onInstalled.addListener(function () {
 	chrome.storage.local.clear(function () {
 		chrome.storage.local.set({
 			volume: 1,
+			maxTrackTimeout: 3 * 60,
 			onstart: false,
+			stopOnClose: true,
 			musicLocMc: false,
 			musicLocFolder: false,
 			mcMusicFiles: [],
@@ -57,9 +59,17 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 	toggleMusic();
 });
 
+// Stop music when all windows are closed (based on option)
+chrome.windows.onRemoved.addListener(function () {
+	chrome.windows.getAll({}, function (windows) {
+		if (windows.length > 0) return;
 
-// Global constants
-var maxTrackTimeout = 3 * 60 * 1000;
+		getOption("stopOnClose").then(function (result) {
+			if (result) pauseMusic();
+		});
+	});
+});
+
 
 // Global variables
 var audioPlayer;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Options | Random (Minecraft) Music Extension</title>
+		<title>Options | Music of Minecraft Extension</title>
 
 		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 
@@ -13,7 +13,7 @@
 
 	<body>
 		<h1 class="text-center my-3">
-			Random (Minecraft) Music Extension
+			Music of Minecraft Extension
 		</h1>
 
 		<form class="container">
@@ -23,9 +23,20 @@
 
 			<br />
 
+			<h3>Basic settings</h3>
+
+			<br />
+
 			<div class="custom-control custom-checkbox">
 				<input class="custom-control-input" id="input-onstart" type="checkbox" />
 				<label class="custom-control-label" for="input-onstart">Play music when Chrome opens</label>
+			</div>
+
+			<br />
+
+			<div class="custom-control custom-checkbox">
+				<input class="custom-control-input" id="input-stopOnClose" type="checkbox" />
+				<label class="custom-control-label" for="input-stopOnClose">Stop playing music when all Chrome windows are closed</label>
 			</div>
 
 			<br />
@@ -37,6 +48,18 @@
 			</div>
 
 			<br />
+
+			<div class="form-group">
+				<label for="input-maxTrackTimeout">Maximum time interval between tracks (seconds)</label>
+				<input type="number" class="form-control" id="input-maxTrackTimeout" aria-describedby="maxTrackTimeoutHelp">
+				<small id="maxTrackTimeoutHelp" class="form-text text-muted">Each new track is delayed by a random time interval. This is limited to avoid too long a wait.</small>
+			</div>
+
+			<br />
+			<br />
+
+			<h3>Music source</h3>
+
 			<br />
 
 			<div class="custom-control custom-radio">
@@ -112,13 +135,13 @@
 			<fieldset id="fieldset-musicLocFolder">
 				<div class="form-group">
 					<div class="custom-file">
-						<label for="input-srcFolder">Enter folder path</label>
-						<input class="form-control" id="input-srcFolder" type="text" aria-describedby="srcFolderHelp">
+						<input type="file" class="custom-file-input" id="input-nosave-srcFolder" webkitdirectory aria-describedby="srcFolderHelp">
+						<label class="custom-file-label" for="input-nosave-srcFolder">Choose folder</label>
 					</div>
 					<div class="progress">
 						<div id="srcFolder-progress" class="progress-bar" role="progressbar"></div>
 					</div>
-					<p id="mcFolder-status"></p>
+					<p id="srcFolder-status"></p>
 					<small id="srcFolderHelp" class="form-text text-muted">
 						This should be a folder containing music files to play. Music files should be of types: .mp3, .ogg, .wav, .mp4, .m4a, .ogv, .ogm, .oga, .opus, .webm, .flac. All subdirectories will also be scanned for music files. Note that changes to the contents of this folder will not be registered unless it is re-uploaded here.
 					</small>

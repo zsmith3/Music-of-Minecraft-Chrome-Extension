@@ -184,6 +184,7 @@ function getAudioFiles (fileList) {
 
 // Extract music files from a full list of folder files
 function extractFolderMusicFiles (fileList, progressCallback) {
-	var allTracks = getAudioFiles(fileList);
+	var allFiles = getAudioFiles(fileList);
+	var allTracks = allFiles.map(function (f) { return { name: f.webkitRelativePath, file: f}; });
 	return copyTrackFiles(allTracks, "music/folder/", progressCallback);
 }
