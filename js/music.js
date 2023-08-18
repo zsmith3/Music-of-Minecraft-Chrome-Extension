@@ -6,13 +6,32 @@ var STATE_PLAYING = 1,
 	STATE_ENDED = 3,
 	STATE_WAITING = 4;
 
+var currentSongName = "";
 
 // Play a track
-function playTrack (track) {
-	readFilePath(track, "readAsDataURL").then(function (base64) {
-		audioPlayer.src = base64;
-	});
+function playTrack(trackFilePath) {
+    // Extract the song name from the file path
+    var match = trackFilePath.match(/\/([^/]+)\.(flac|mp4|m4a|mp3|ogv|ogm|ogg|oga|opus|webm|wav)$/i);
+    if (match && match.length === 3) {
+        var trackName = match[1]; // Extracted song name
+
+        var track = {
+            name: trackName
+        };
+
+        readFilePath(trackFilePath, "readAsDataURL").then(function (base64) {
+            audioPlayer.src = base64;
+            currentSongName = track.name; // Set the current song name
+            updateBadge(); // Update the badge immediately after setting the song name
+        }).catch(function (error) {
+            console.error("Error playing track:", error);
+        });
+    } else {
+        console.error("Invalid track file path:", trackFilePath);
+    }
 }
+
+
 
 // Update the music volume
 function updateVolume (value) {
@@ -123,20 +142,26 @@ function toggleMusic () {
 }
 
 // Update the badge (chrome.browserAction)
-function updateBadge () {
-	var state = getPlayingState();
-	switch (state) {
-	case STATE_PLAYING:
-	case STATE_WAITING:
-		chrome.browserAction.setTitle({title: "Music of Minecraft Extension (active)"});
-		chrome.browserAction.setBadgeText({text: "❚❚"});
-		chrome.browserAction.setBadgeBackgroundColor({color: "#00AA00"});
-		break;
-	case STATE_PAUSED:
-	case STATE_ENDED:
-		chrome.browserAction.setTitle({title: "Music of Minecraft Extension (paused)"});
-		chrome.browserAction.setBadgeText({text: "▶"});
-		chrome.browserAction.setBadgeBackgroundColor({color: "#AA0000"});
-		break;
-	}
+function updateBadge() {
+    var state = getPlayingState();
+    var badgeText = "";
+    var badgeTitle = "";
+
+    switch (state) {
+        case STATE_PLAYING:
+        case STATE_WAITING:
+            badgeText = "❚❚";
+            badgeTitle = "Music of Minecraft - Now Playing: " + currentSongName; // Include current song name
+            break;
+        case STATE_PAUSED:
+        case STATE_ENDED:
+            badgeText = "▶";
+            badgeTitle = "Music of Minecraft Extension (paused)";
+            break;
+    }
+
+    chrome.browserAction.setTitle({ title: badgeTitle });
+    chrome.browserAction.setBadgeText({ text: badgeText });
+    chrome.browserAction.setBadgeBackgroundColor({ color: state === STATE_PLAYING || state === STATE_WAITING ? "#00AA00" : "#AA0000" });
 }
+
